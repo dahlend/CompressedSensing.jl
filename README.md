@@ -5,7 +5,7 @@ This package is contains several useful algorithms for compressive sensing, mult
 ##Available Algorithms
 
 ####SMV - Single Measurement Vectors
-		- http://www.sciencedirect.com/science/article/pii/S092523121300430X
+   http://www.sciencedirect.com/science/article/pii/S092523121300430X
 - *IRLS* - Equality constrained Iteratively Rewieghted Least Squares Lp Minimization
 - *UIRLS* - Unconstrained Iteratively Reweighted Lease Squares Lp Minimization
 
