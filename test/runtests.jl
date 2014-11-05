@@ -22,3 +22,10 @@ UIRLS_GuessSignal=UIRLS(Measure,Measure*Signal+Noise,lambda=.1,maxiter=2000)[1]
 
 @test cor(UIRLS_GuessSignal, Signal)>.995
 info("UIRLS() PASSED")
+
+
+A = zeros(100)
+A[1]=1
+
+@test GI(A)==.99
+info("GI() PASSED")

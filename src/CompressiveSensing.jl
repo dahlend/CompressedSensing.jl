@@ -4,7 +4,8 @@ module CompressiveSensing
 
 include("IRLS.jl")
 include("UIRLS.jl")
+include("GiniIndex.jl")
 
-export IRLS,UIRLS
+export IRLS,UIRLS,GI
 
 end # module
