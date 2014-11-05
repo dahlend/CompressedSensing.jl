@@ -1,6 +1,6 @@
 # CompressiveSensing
 
-This package is contains several useful algorithms for compressive sensing, multiple measurement vectors, and sparse blind source separation.
+This package contains several useful algorithms for compressive sensing, multiple measurement vectors, and sparse blind source separation.
 
 ##Available Algorithms
 
@@ -16,5 +16,5 @@ This package is contains several useful algorithms for compressive sensing, mult
 - *nGMCA* - Sparse non-negative Blind Source Separation - http://arxiv.org/pdf/1308.5546.pdf
 
 ####Quantifying Sparsity
-- *GI* - Absolute Gini Index - http://www.eng.nus.edu.sg/eleashra/TJSTSP_Gini.pdf
+- *GI* - Absolute Gini Index - http://arxiv.org/pdf/0811.4706.pdf
 - *Coherence* - Measuring the coherence of a measurement matrix by the definitions commonly used - http://cmc.edu/pages/faculty/DNeedell/papers/redundant.pdf
