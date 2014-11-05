@@ -12,7 +12,7 @@ This package is contains several useful algorithms for compressive sensing, mult
 - *ZAP* - Zeropoint Attractor
 
 ####BSS - Sparse Blind Source Separation
-- *PosBSS* - Sparse non-negative Blind Source Separation
+- *nGMCA* - Sparse non-negative Blind Source Separation
 
 ####Quantifying Sparsity
 - *GI* - Absolute Gini Index

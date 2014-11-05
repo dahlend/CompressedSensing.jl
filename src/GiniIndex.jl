@@ -3,12 +3,12 @@ function GI(x::Array)
     
     @assert eltype(x)<:Number
 
-    n=length(x)
-    
     #Reshape the incoming matrix into a sorted 1xn list of positive numbers
     x=abs(x[:])
     sort!(x)
     
+    n=length(x)
+
     #s is the sum of all terms, g is the gini index
     g=0
     s=0
