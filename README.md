@@ -17,3 +17,4 @@ This package is contains several useful algorithms for compressive sensing, mult
 
 ####Quantifying Sparsity
 - *GI* - Absolute Gini Index - http://www.eng.nus.edu.sg/eleashra/TJSTSP_Gini.pdf
+- *Coherence* - Measuring the coherence of a measurement matrix by the definitions commonly used - http://cmc.edu/pages/faculty/DNeedell/papers/redundant.pdf
