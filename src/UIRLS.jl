@@ -1,12 +1,14 @@
 include("SupportFunctions.jl")
 
+
 #Define the p in the Lp minimization, previous work suggests p=0.5 results in
 #equivalent results to 0 with signifigantly less time to convergence
 
 #eps is a function that starts at 1 and converges to 0 as x goes from 1->inf
 #this is needed by the IRLS algorithm to converge
-function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,1};
-              verbose=false,maxiter=1000,p=.5,eps=x->1/x^3,threshold=1e-5)
+
+function UIRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,1};
+    eps=x->1/x^3,threshold=1e-5,lambda=1,p=.5,verbose=false,maxiter=1000)
 
     #identify the size of the input
     m=size(MeasurementMatrix,2)
@@ -26,6 +28,9 @@ function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,
     #transpose the sampling matrix, this is used every iteration so it
     #is far more efficient to calculate it before hand.
     tMeasurementMatrix=MeasurementMatrix'
+    AtA = tMeasurementMatrix*MeasurementMatrix
+    
+    
 
     #set the distance between iterations to infinite
     PrevDist = fill(Inf,int(maxiter/100)+1)
@@ -34,29 +39,25 @@ function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,
     iteration=1
 
     if verbose
-        print("Iteration: \n",iteration)
+        print("Iteration: \n","Begin")
     end
-
-    #assume we are converging, this will be set to false if neccessary
-    converges=true
     
+    converges=true
     
     #Begin Iterating
     while PrevDist[int(iteration/100)+1]>threshold
-
-        #Calculate the diagonal weights for the ridge regression
+        
+        #Calculate the diagonal weights
         for j in 1:m
-            wn[j,j]=1./(GuessedInput[j]^2.+eps(iteration))^(p/2.-1.)
+            wn[j,j]=p*lambda / (eps(iteration)+PrevGuess[j]^2.)^(1.-p/2)
         end
 
         #Record Previous guess to convergence test later
         PrevGuess=GuessedInput
 
-        #IRLS step
-        GuessedInput=wn*tMeasurementMatrix*
-            pinv(MeasurementMatrix*wn*tMeasurementMatrix)*
-            MeasuredOutput
-        
+        #iterate through the IRLS steps
+        GuessedInput=(AtA + wn)\(tMeasurementMatrix*MeasuredOutput)
+
         #CONVERGENCE TEST
         #Every 1% of maxiter, see if we are approaching convergence
         if mod(iteration,int(maxiter/100))==0
@@ -78,7 +79,7 @@ function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,
             end
         end
 
-        #if we pass maxiter iterations, give up
+        #if we pass iter iterations, give up
         if iteration>=maxiter
             converges=false
             break
@@ -86,15 +87,14 @@ function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,
 
         iteration+=1
     end
-
+    
     if verbose
         print("\n\nDone\n")
     end
     return (GuessedInput,converges,iteration-1,PrevDist[1:(int(iteration/100)+1)])
-end
+end;
 
 
-IRLS(MeasurementMatrix,MeasuredOutput;x...)=
-             IRLS(convert(Array{Float64,2},MeasurementMatrix),
-                  convert(Array{Float64,1},MeasuredOutput);x...)
-
+UIRLS(MeasurementMatrix,MeasuredOutput;x...)=
+             UIRLS(convert(Array{Float64,2},MeasurementMatrix),
+                   convert(Array{Float64,1},MeasuredOutput);x...)
