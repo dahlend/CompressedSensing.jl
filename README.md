@@ -5,14 +5,15 @@ This package is contains several useful algorithms for compressive sensing, mult
 ##Available Algorithms
 
 ####SMV - Single Measurement Vectors
+		- http://www.sciencedirect.com/science/article/pii/S092523121300430X
 - *IRLS* - Equality constrained Iteratively Rewieghted Least Squares Lp Minimization
 - *UIRLS* - Unconstrained Iteratively Reweighted Lease Squares Lp Minimization
 
 ####MMV - Multiple Measurement Vectors
-- *ZAP* - Zeropoint Attractor
+- *ZAP* - Zeropoint Attractor - http://arxiv.org/pdf/1203.1548.pdf
 
 ####BSS - Sparse Blind Source Separation
-- *nGMCA* - Sparse non-negative Blind Source Separation
+- *nGMCA* - Sparse non-negative Blind Source Separation - http://arxiv.org/pdf/1308.5546.pdf
 
 ####Quantifying Sparsity
-- *GI* - Absolute Gini Index
+- *GI* - Absolute Gini Index - http://www.eng.nus.edu.sg/eleashra/TJSTSP_Gini.pdf
