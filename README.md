@@ -23,8 +23,8 @@ This package contains several useful algorithms for compressive sensing, multipl
 ##Functions
 
 ######IRLS(MeasurementMatrix,Measurement;x...)
-	This function reconstructs a signal using Lp minimization, where 0<p<=1
-	It accepts these options:
+This function reconstructs a signal using Lp minimization, where 0<p<=1
+It accepts these options:
 	- *verbose = false* - Print iteration and convergence information
 	- *maxiter = 1000* - The maximum number of iterations before giving up.
 	- *p = .5* - The p in Lp
@@ -37,7 +37,7 @@ This package contains several useful algorithms for compressive sensing, multipl
 
 [IRLS Example](./examples/Example_1_Fig_1.png)
 
-'''julia
+```julia
 #Signal Dimensions
 n=1000
 #measurement dimension
@@ -57,4 +57,4 @@ Measurement = MM*Signal
 
 #Reconstruct using IRLS
 Reconstruction = IRLS(MM,Measurement,verbose=true)[1]
-'''
+```
