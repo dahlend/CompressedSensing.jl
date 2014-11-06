@@ -39,6 +39,7 @@ It accepts the same options as IRLS, with one addition:
 - *lambda = 1* - This value is the tradeoff between finding a sparser solution and a solution that is closer to the measured output. It is in essence a measure of how much noise is expected in the measurement. Smaller lambdas would tend to mean there is less noise, so the solution approaches IRLS as lambda goes to 0. lambda>0. See [[1]][bib1]
 
 These functions returns a vector of the reconstructed signal.
+
 ------
 #####nGMCA( Y , r) ; x...)
 An implementation of the algorithm presented in [[3]][bib3]. This takes a matrix and performs [blind source separation](http://en.wikipedia.org/wiki/Blind_signal_separation) with the added restrictions that the source signals and mixing matrix be as sparse (L1 sparsity) as possible, and non-negative. In addition to the starting matrix, the number of components must be specified.  Additional Options:
