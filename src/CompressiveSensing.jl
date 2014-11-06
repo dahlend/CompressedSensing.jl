@@ -9,6 +9,13 @@ include("nGMCA.jl")
 include("ZAP.jl")
 include("Coherence.jl")
 
-export IRLS,UIRLS,GI,nGMCA,ZAP,Coherence
+
+export IRLS,UIRLS,GI,nGMCA,ZAP,Coherence,CSExamples
+
+function CSExamples()
+	include("../examples/Example 1.jl")
+
+end
+
 
 end # module
