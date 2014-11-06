@@ -74,8 +74,8 @@ UIRLS(MM,Measurement,lambda=.1)
 
 
 
-[bib1](http://www.sciencedirect.com/science/article/pii/S092523121300430X)
-[bib2](http://arxiv.org/pdf/1203.1548.pdf)
-[bib3](http://arxiv.org/pdf/1308.5546.pdf)
-[bib4](http://arxiv.org/pdf/0811.4706.pdf)
-[bib5](http://cmc.edu/pages/faculty/DNeedell/papers/redundant.pdf)
+[bib1]:http://www.sciencedirect.com/science/article/pii/S092523121300430X
+[bib2]:http://arxiv.org/pdf/1203.1548.pdf
+[bib3]:http://arxiv.org/pdf/1308.5546.pdf
+[bib4]:http://arxiv.org/pdf/0811.4706.pdf
+[bib5]:http://cmc.edu/pages/faculty/DNeedell/papers/redundant.pdf
