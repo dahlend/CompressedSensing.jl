@@ -2,6 +2,8 @@
 
 This package contains several useful algorithms for compressive sensing, multiple measurement vectors, and sparse blind source separation.
 
+*This package is under heavy editing currently, expect changes!*
+
 ##Available Algorithms
 
 #####SMV - Single Measurement Vectors
