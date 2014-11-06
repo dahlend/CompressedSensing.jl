@@ -33,9 +33,7 @@ It accepts these options:
 
 ##Examples
 
-####IRLS
-
-![IRLS Example](./examples/Example_1_Fig_1.png)
+####[IRLS - Example 1](./examples/Example 1.jl)
 
 ```julia
 #Signal Dimensions
@@ -44,17 +42,16 @@ n=1000
 m=400
 #Approximate Sparsity
 k=100
-
 #Create a random sparse signal
 Signal = zeros(n)
 Signal[int(rand(k)*(n-1)+1)] = randn(k)
-
 #Create a random measurement matrix
 MM = randn(m,n)
-
 #Measure the signal using the measurement matrix
 Measurement = MM*Signal
 
 #Reconstruct using IRLS
 Reconstruction = IRLS(MM,Measurement,verbose=true)[1]
 ```
+
+![IRLS Example](./examples/Example_1_Fig_1.png)
