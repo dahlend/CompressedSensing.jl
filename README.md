@@ -22,20 +22,20 @@ This package contains several useful algorithms for compressive sensing, multipl
 
 ##Functions
 
-######IRLS(MeasurementMatrix,Measurement;x...)
-This function reconstructs a signal using Lp minimization, where 0 < p < =1
+#####IRLS(MeasurementMatrix,Measurement;x...)
+This function reconstructs a signal using Lp minimization, where 0 < p <= 1.
 It accepts these options:
 - *verbose = false* - Print iteration and convergence information
 - *maxiter = 1000* - The maximum number of iterations before giving up.
 - *p = .5* - The p in Lp
 - *theshold = 1e-5* - Threshold for convergence, the smaller the number the more the algorithm onverges.
-- *eps=x- >1/x^3* - A function that converges to 0 as x->Inf. The faster eps approaches 0 the faster the algorithm converges, however it also becomes more likely to fail.  1/x^3 seems to be something of a conservative setting, resulting in good convergence at the cost of taking slightly more time to run.
+- *eps=x->1/x^3* - A function that converges to 0 as x->Inf. The faster eps approaches 0 the faster the algorithm converges, however it also becomes more likely to fail.  1/x^3 seems to be something of a conservative setting, resulting in good convergence at the cost of taking slightly more time to run.
 
 ##Examples
 
 ####IRLS
 
-[IRLS Example](./examples/Example_1_Fig_1.png)
+![IRLS Example](./examples/Example_1_Fig_1.png)
 
 ```julia
 #Signal Dimensions
