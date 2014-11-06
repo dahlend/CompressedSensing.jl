@@ -1,5 +1,9 @@
+#Basic Example of IRLS in a noiseless situation
+
 using PyPlot
 using CompressiveSensing
+
+srand(0)
 
 #Signal Dimensions
 n=1000
@@ -19,7 +23,7 @@ MM = randn(m,n)
 Measurement = MM*Signal
 
 #Reconstruct using IRLS
-Reconstruction = IRLS(MM,Measurement,verbose=true)[1]
+Reconstruction = IRLS(MM,Measurement,verbose=true)
 
 #plot the results
 bar(1:length(Signal),Signal,width=.01) #easiest method for plotting thin lines

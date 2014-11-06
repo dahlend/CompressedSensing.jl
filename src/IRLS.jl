@@ -96,6 +96,7 @@ function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,
         return (GuessedInput,converges,iteration-1,PrevDist[1:(int(iteration/100)+1)])
     else
         return GuessedInput
+    end
 end
 
 

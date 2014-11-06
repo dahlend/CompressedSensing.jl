@@ -99,7 +99,7 @@ function UIRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64
         return GuessedInput
     end
 
-end;
+end
 
 
 UIRLS(MeasurementMatrix,MeasuredOutput;x...)=
