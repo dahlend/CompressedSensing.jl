@@ -6,7 +6,7 @@ include("SupportFunctions.jl")
 #eps is a function that starts at 1 and converges to 0 as x goes from 1->inf
 #this is needed by the IRLS algorithm to converge
 function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,1};
-              verbose=false,maxiter=1000,p=.5,eps=x->1/x^3,threshold=1e-5)
+              verbose=false,maxiter=1000,p=.5,eps=x->1/x^3,threshold=1e-5,debug=false)
 
     #identify the size of the input
     m=size(MeasurementMatrix,2)
@@ -88,9 +88,14 @@ function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,
     end
 
     if verbose
-        print("\n\nDone\n")
+        print("\nDone\n")
     end
-    return (GuessedInput,converges,iteration-1,PrevDist[1:(int(iteration/100)+1)])
+
+    #if debugging, return additional information, such as distance to convergence and iteration number
+    if debug
+        return (GuessedInput,converges,iteration-1,PrevDist[1:(int(iteration/100)+1)])
+    else
+        return GuessedInput
 end
 
 
