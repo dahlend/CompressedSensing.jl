@@ -41,7 +41,7 @@ It accepts the same options as IRLS, with one addition:
 These functions returns a vector of the reconstructed signal.
 
 ------
-#####nGMCA( Y , r) ; x...)
+#####nGMCA( Y , r ; x...)
 An implementation of the algorithm presented in [[3]][bib3]. This takes a matrix and performs [blind source separation](http://en.wikipedia.org/wiki/Blind_signal_separation) with the added restrictions that the source signals and mixing matrix be as sparse (L1 sparsity) as possible, and non-negative. In addition to the starting matrix, the number of components must be specified.  Additional Options:
 - *verbose = false* - Print iteration and convergence information.
 - *maxIter = 5000* - maximum number of iterations before giving up.
