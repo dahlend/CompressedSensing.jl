@@ -1,0 +1,6 @@
+site_name: CompressiveSensing
+pages:
+- [index.md, Home]
+- [Functions.md, Functions]
+- [Examples.md,Examples]
+theme: readthedocs
