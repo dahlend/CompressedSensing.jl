@@ -1,6 +1,6 @@
 ##Examples
 
-####[IRLS - Example 1](examples/Example 1.jl)
+####[IRLS - Example 1](https://github.com/dahlend/CompressiveSensing/tree/master/examples/Example 1.jl)
 
 ```julia
 
@@ -20,7 +20,7 @@ Reconstruction = IRLS(MM,Measurement,verbose=true)
 ![IRLS Example](examples/Example_1_Fig_1.png)
 
 
-####[UIRLS w/ Noise - Example 2](examples/Example 2.jl)
+####[UIRLS w/ Noise - Example 2](https://github.com/dahlend/CompressiveSensing/tree/master/examples/Example 2.jl)
 Taking the signal and measurement matrix from example 1:
 ```julia
 Noise = randn(m)*.3
