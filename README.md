@@ -1,5 +1,8 @@
-# CompressiveSensing
+#CompressiveSensing
 [![Build Status](https://travis-ci.org/dahlend/CompressiveSensing.svg?branch=master)](https://travis-ci.org/dahlend/CompressiveSensing)
+[![Documentation Status](https://readthedocs.org/projects/compressivesensing/badge/?version=latest)](https://readthedocs.org/projects/compressivesensing/?badge=latest)
+
+
 This package contains several useful algorithms for compressive sensing, multiple measurement vectors, and sparse blind source separation.
 
 *This package is under heavy editing currently, expect changes!*

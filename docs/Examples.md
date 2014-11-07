@@ -1,7 +1,6 @@
 #[IRLS - Example 1](https://github.com/dahlend/CompressiveSensing/tree/master/examples/Example 1.jl)
-
-```julia
-
+This example is a simple reconstruction of a sparse signal using Lp minimization. We generate a signal, a measurement matrix, and "measure" the signal using the measurement matrix. Using only the measurement matrix and measurement, we reconstruct the original signal.
+```
 n=1000   #Signal Dimensions
 m=400    #Measurement Dimension
 k=100    #Approximate Sparsity
@@ -19,8 +18,8 @@ Reconstruction = IRLS(MM,Measurement,verbose=true)
 
 
 #[UIRLS w/ Noise - Example 2](https://github.com/dahlend/CompressiveSensing/tree/master/examples/Example 2.jl)
-Taking the signal and measurement matrix from example 1:
-```julia
+Taking the signal and measurement matrix from example 1, we add noise to the measurement and attempt to rebuild the original signal.  We then measure the euclidean distance to the true signal, showing that the UIRLS algorithm is superior at rebuilding the signal in the presence of noise.
+```
 Noise = randn(m)*.3
 Measurement += Noise  #Add ~30% noise to the measurement and reconstruct
 
