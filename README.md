@@ -96,7 +96,7 @@ UIRLS(MM,Measurement,lambda=.1)
 ####[Gini Index - Example 3](./examples/Example 3.jl)
 The gini index is an excelent measure of the sparsity of a dataset, a full discussion of its benefits are discussed in [[4]][bib4].  To briefly see the benefit, we can look at the difference between GI and L0 as a measure of sparsity on noisy and non-noisy data.  Here we have made 2 vectors of length 100, one without noise and one with noise. The noiseless vector starts set to 0, and each element is incrementally set to 1.  Taking the L0 sparsity of this, we get the expected result of 1,2,3 etc. However if we add a small amount of noise to the vector, the L0 sparsity is fixed at 100. A comparison to the GI is visible.
 
-~[GI Index Example](./examples/Example_3_Fig_1.png)
+![GI Index Example](./examples/Example_3_Fig_1.png)
 
 
 
