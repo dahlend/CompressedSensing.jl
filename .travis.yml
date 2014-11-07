@@ -33,5 +33,4 @@ script:
     - julia -e 'versioninfo()'
     - if [ $JULIAVERSION = "julianightlies" ]; then julia --code-coverage test/runtests.jl; fi
     - if [ $JULIAVERSION = "juliareleases" ]; then julia test/runtests.jl; fi
- after_success:
- 
+
