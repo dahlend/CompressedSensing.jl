@@ -109,7 +109,7 @@ end
 
 
 
-function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,phaseRatio=0.30,kickstart=true)
+function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,phaseRatio=0.30,kickstart=true,submaxiter=200)
 
     #Randomly build one of the two output matricies
     S=rand(size(Y,2),r)'
@@ -128,9 +128,9 @@ function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,pha
         #Kick Start this show!
         A=plusOp(Y/S)
         S=plusOp(A\Y)
-        S=updateS(Y,A,0,S;maxIter=1000)[1]
+        S=updateS(Y,A,0,S;maxIter=submaxiter)[1]
         (A,S)=m_reinitializeS(A,S, Y, verbose)
-        A=updateA(Y,S,A;maxIter=1000)[1]
+        A=updateA(Y,S,A;maxIter=submaxiter)[1]
         print("\nKickstart complete.")
     end
     
@@ -150,10 +150,10 @@ function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,pha
         end
         
         (A,S)=m_reinitializeS(A,S, Y, verbose)
-        S=updateS(Y,A,l,S;maxIter=maxIter)
+        S=updateS(Y,A,l,S;maxIter=submaxiter)
         (A,S)=m_reinitializeS(A,S, Y, verbose)
-        A=updateA(Y,S[1],A;maxIter=maxIter)
-        l=updateLambda!(A[1],S[1],Y,j,maxIter,phaseRatio,l)
+        A=updateA(Y,S[1],A;maxIter=submaxiter)
+        l=updateLambda!(A[1],S[1],Y,j,submaxiter,phaseRatio,l)
         
         if verbose && mod(j,10)==0
             print("\r"*string("GI(S) ",round(GI(S[1]),3)," GI(A) ",

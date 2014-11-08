@@ -29,10 +29,16 @@ UIRLS(MM,Measurement,lambda=.1)
 ```
 ![IRLS Example](https://raw.githubusercontent.com/dahlend/CompressiveSensing/master/examples/Example_2_Fig_1.png)
 
-#[Gini Index - Example 3](examples/Example 3.jl)
+#[Gini Index - Example 3](https://github.com/dahlend/CompressiveSensing/tree/master/examples/Example 3.jl)
 The gini index is an excelent measure of the sparsity of a dataset, a full discussion of its benefits are discussed in [[4]][bib4].  To briefly see the benefit, we can look at the difference between GI and L0 as a measure of sparsity on noisy and non-noisy data.  Here we have made 2 vectors of length 100, one without noise and one with noise. The noiseless vector starts set to 0, and each element is incrementally set to 1.  Taking the L0 sparsity of this, we get the expected result of 1,2,3 etc. However if we add a small amount of noise to the vector, the L0 sparsity is fixed at 100. A comparison to the GI is visible.
 
 ![GI Index Example](https://raw.githubusercontent.com/dahlend/CompressiveSensing/master/examples/Example_3_Fig_1.png)
+
+
+#[nGMCA- Example 4](https://github.com/dahlend/CompressiveSensing/tree/master/examples/Example 4.jl)
+The nGMCA algorithm performs blind source separation on a matrix Y, attempting to reconstruct two sparse, non-negative matricies, A, S, that can be mulitplied together such that A*S=Y.  Here we make 2 known sparse matricies, A and S, and create a Y.  Then using only the Y, we attempt to rebuild A and S with nGMCA.  Since the order of rows and columns of A & S can be swapped and scaled and still result in the expected Y, we have to look at the correlation between the reconstructed matricies to the originals in order to see if it found the correct answer.
+
+![nGMCA Example](https://raw.githubusercontent.com/dahlend/CompressiveSensing/master/examples/Example_4_Fig_1.png)
 
 
 [bib1]:http://www.sciencedirect.com/science/article/pii/S092523121300430X
