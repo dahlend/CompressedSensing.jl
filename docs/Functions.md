@@ -20,6 +20,20 @@ It accepts the same options as IRLS, with one addition:
 These functions returns a vector of the reconstructed signal.
 
 ------
+#####ZAP(Y, A ; x...)
+Implementation of the algorith presented in [[2]][bib2].  This identifies a sparse solution to Multiple Measurement Vector, using a Zero-point Attracting Projection. The algorithm accepts a measured output matrix Y and a sampling/measurement matrix A, and returns a joint sparse input signal.  Additional Options:
+
+- `verbose = false` - Print iteration and convergence information.
+- `maxIter = 5000` - maximum number of iterations before giving up.
+- `threshold = 1e-6` - threshold for convergence.
+- `kappa = .1` - See [[2]][bib2] for full description.
+- `neu = .1` - See [[2]][bib2] for full description.
+- `Q = 11` - See [[2]][bib2] for full description.
+- `alpha = 1` - See [[2]][bib2] for full description.
+
+------
+
+
 #####nGMCA( Y , r ; x...)
 An implementation of the algorithm presented in [[3]][bib3]. This takes a matrix and performs [blind source separation](http://en.wikipedia.org/wiki/Blind_signal_separation) with the added restrictions that the source signals and mixing matrix be as sparse (L1 sparsity) as possible, and non-negative. In addition to the starting matrix, the number of components must be specified.  Additional Options:
 

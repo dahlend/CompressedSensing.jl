@@ -40,6 +40,11 @@ The nGMCA algorithm performs blind source separation on a matrix Y, attempting t
 
 ![nGMCA Example](https://raw.githubusercontent.com/dahlend/CompressiveSensing/master/examples/Example_4_Fig_1.png)
 
+#[ZAP - Example 5](https://github.com/dahlend/CompressiveSensing/tree/master/examples/Example 5.jl)
+The ZAP algorithm attempts to find a jointly-sparse signal M that solves the Multiple Measurement Vector problem described by A * M = Y, where A is a measurement matrix, and Y is the measured signal.  A complete discussion of this can be seen in the paper [[2]][bib2].  Figure 1 from that paper is recreated below using this implementation.
+
+![ZAP Example](https://raw.githubusercontent.com/dahlend/CompressiveSensing/master/examples/Example_5_Fig_1.png)
+
 
 [bib1]:http://www.sciencedirect.com/science/article/pii/S092523121300430X
 [bib2]:http://arxiv.org/pdf/1203.1548.pdf
