@@ -1,4 +1,4 @@
-using CompressiveSensing
+using CompressedSensing
 using Base.Test
 
 
