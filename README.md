@@ -1,9 +1,9 @@
-#CompressiveSensing
-[![Build Status](https://travis-ci.org/dahlend/CompressiveSensing.svg?branch=master)](https://travis-ci.org/dahlend/CompressiveSensing)
-[![Documentation Status](https://readthedocs.org/projects/compressivesensing/badge/?version=latest)](https://readthedocs.org/projects/compressivesensing/?badge=latest)
+#compressedSensing
+[![Build Status](https://travis-ci.org/dahlend/CompressedSensing.svg?branch=master)](https://travis-ci.org/dahlend/compressedSensing)
+[![Documentation Status](https://readthedocs.org/projects/compressedsensing/badge/?version=latest)](https://readthedocs.org/projects/compressedsensing/?badge=latest)
 
 
-This package contains several useful algorithms for compressive sensing, multiple measurement vectors, and sparse blind source separation.
+This package contains several useful algorithms for compressed sensing, multiple measurement vectors, and sparse blind source separation.
 
 ##Available Algorithms
 
@@ -21,7 +21,7 @@ This package contains several useful algorithms for compressive sensing, multipl
 - *GI* - Absolute Gini Index [4][bib4]
 - *Coherence* - Measuring the coherence of a measurement matrix by the definitions commonly used [5][bib5] 
 
-Documentation can be found at readthedocs [here](http://compressivesensing.readthedocs.org/en/latest/)
+Documentation can be found at readthedocs [here](http://compressedsensing.readthedocs.org/en/latest/)
 
 
 [bib1]:http://www.sciencedirect.com/science/article/pii/S092523121300430X
