@@ -1,7 +1,7 @@
 #Basic Example of IRLS in a noiseless situation
 
 using PyPlot
-using CompressiveSensing
+using CompressedSensing
 
 srand(0)
 

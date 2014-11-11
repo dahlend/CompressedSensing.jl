@@ -1,7 +1,7 @@
 #Comparing Gini Index to L0 as a measure of sparsity
 
 using PyPlot
-using CompressiveSensing
+using CompressedSensing
 srand(0)
 
 #Create 2 data sets, one without noise, and one with 5% gaussian noise

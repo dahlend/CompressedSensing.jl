@@ -1,4 +1,4 @@
-using CompressiveSensing
+using CompressedSensing
 using PyPlot
 #This is a recreation of figure 1 from http://arxiv.org/pdf/1203.1548.pdf
 #WARNING: this simulation takes a few minutes to complete!

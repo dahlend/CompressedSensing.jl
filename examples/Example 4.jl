@@ -1,5 +1,5 @@
 #An example of nGMCA
-using CompressiveSensing
+using CompressedSensing
 using PyPlot
 srand(1)
 

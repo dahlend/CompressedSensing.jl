@@ -1,4 +1,4 @@
-using CompressiveSensing
+using CompressedSensing
 using PyPlot
 n=1000     #Signal Dimensions
 m=400      #Measurement Dimension

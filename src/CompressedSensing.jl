@@ -1,4 +1,4 @@
-module CompressiveSensing
+module CompressedSensing
 
 # package code goes here
 
