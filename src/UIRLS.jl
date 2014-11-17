@@ -8,7 +8,7 @@ include("SupportFunctions.jl")
 #this is needed by the IRLS algorithm to converge
 
 function UIRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,1};
-    eps=x->1/x^3,threshold=1e-5,lambda=1,p=.5,verbose=false,maxiter=1000,debug=false)
+    eps=x->1/x^3,threshold=1e-5,lambda=1,p=.5,verbose=false,maxiter=1000,debug=false,force_positive=false)
 
     #identify the size of the input
     m=size(MeasurementMatrix,2)
@@ -57,7 +57,9 @@ function UIRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64
 
         #iterate through the IRLS steps
         GuessedInput=(AtA + wn)\(tMeasurementMatrix*MeasuredOutput)
-
+        if force_positive
+            GuessedInput=max(GuessedInput,zeros(m))
+        end
         #CONVERGENCE TEST
         #Every 1% of maxiter, see if we are approaching convergence
         if mod(iteration,int(maxiter/100))==0
