@@ -2,7 +2,7 @@ function plusOp(x)
     map(y->maximum([y,0]),x)
 end
 
-    
+
 function soft(x,l)
     sign(x).*plusOp(abs(x)-l)
 end
@@ -10,10 +10,10 @@ end
 
 
 function updateS(Y,A,lambda,S;maxIter=10000,threshold=1e-5)
-    
+
     H=A'*A
     AtY=A'*Y
-    
+
     R=deepcopy(S)
 
     Sp=S
@@ -23,20 +23,20 @@ function updateS(Y,A,lambda,S;maxIter=10000,threshold=1e-5)
     catch
         error("Error in eigenvalue calculation")
     end
-    
+
     At=A'
     t=1
     tp=t
-    
+
     i=1
-    
+
     converged=false
     while i<maxIter
         tp=t
         t=(1+(1+4*tp^2)^0.5)/2
-        
+
         w=(tp-1)/t
-        
+
         R=(1+w)*S-w*Sp
         Sp=S
         try
@@ -48,10 +48,10 @@ function updateS(Y,A,lambda,S;maxIter=10000,threshold=1e-5)
             converged=true
             break
         end
-        
+
         i+=1
     end
-    return {S,i,converged}
+    return (S,i,converged)
 end
 
 
@@ -60,32 +60,32 @@ end
 function updateA(Y,S,A;maxIter=10000,threshold=1e-5)
 
     Ap=A
-    
+
     H=S*S'
     L=eigmax(H)
     YSt= Y*S'
-        
+
     t=1
     tp=t
-    
+
     i=1
     converged=false
     while i<maxIter
-            
+
         tp=t
         t=(1+(1+4*tp^2)^0.5)/2
-        
+
         B = (1+(tp-1)/(t)) * A - (tp-1)/(t) * Ap
         Ap=A
         A = plusOp(B-(B*H-YSt)/L)
-        
+
         if sum(abs(Ap-A))<(threshold*sum(A))
             converged=true
             break
         end
         i+=1
     end
-    return {A,i,converged}
+    return (A,i,converged)
 end
 
 
@@ -95,15 +95,15 @@ function updateLambda!(A,S,Y,iteration,maxIter, phaseRatio,lambda)
 
     if refinement_beginning > iteration
 
-      
+
         sigma_residue = 1.4826 * median(abs((Y - A*S)[:].-median((Y - A*S)[:])))
         #linear decrease to tau_MAD*sigma_residue when reaching the refinement steps
         lambda = maximum([sigma_residue, lambda - 1/(refinement_beginning - iteration) * (lambda - sigma_residue)])
-        
+
     else #during refinement, do not modify lambda
         lambda = lambda
     end
-    
+
     return lambda
 end
 
@@ -113,13 +113,13 @@ function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,pha
 
     #Randomly build one of the two output matricies
     S=rand(size(Y,2),r)'
-    
+
     #Fit the first as an approximation of the other
     A=Y/S
-    
+
     #Estimate an L0
     l=maximum(abs(A'*(A*S-Y)))
-    
+
     if verbose && kickstart
         print("\nKickstarting BSS...")
     end
@@ -133,11 +133,11 @@ function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,pha
         A=updateA(Y,S,A;maxIter=submaxiter)[1]
         print("\nKickstart complete.")
     end
-    
+
     if verbose
         print("\nL0=",""*string(l,"\nStart Full BSS:\n"))
     end
-    
+
     #Run the algorithm
     j=1
     for j=1:maxIter
@@ -145,24 +145,22 @@ function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,pha
         Sp=deepcopy(S)
 
         #normalize columns of A
-        for i=1:size(A)[2]
-            A[:,i]= A[:,i]./[sum(A.^2.,1).^.5][i]
-        end
-        
-        (A,S)=m_reinitializeS(A,S, Y, verbose)
-        S=updateS(Y,A,l,S;maxIter=submaxiter)
-        (A,S)=m_reinitializeS(A,S, Y, verbose)
-        A=updateA(Y,S[1],A;maxIter=submaxiter)
-        l=updateLambda!(A[1],S[1],Y,j,submaxiter,phaseRatio,l)
-        
-        if verbose && mod(j,10)==0
-            print("\r"*string("GI(S) ",round(GI(S[1]),3)," GI(A) ",
-            round(GI(A[1]),3),"\t Iterations Total:",j,"  S:",S[2]," A: ",A[2],
-            "\tL:",round(l,5),"\t Dist to Y: ",round(sum((A[1]*S[1]-Y).^2.).^.5),5))
+        for i=1:size(A,2)
+            A[:,i]= A[:,i]./(sum(A.^2.,1).^.5)[i]
         end
 
-        S=S[1]
-        A=A[1]
+        (A,S)=m_reinitializeS(A,S, Y, verbose)
+        (S,S_iter,S_converge)=updateS(Y,A,l,S;maxIter=submaxiter)
+        (A,S)=m_reinitializeS(A,S, Y, verbose)
+        (A,A_iter,A_converge)=updateA(Y,S,A;maxIter=submaxiter)
+        l=updateLambda!(A,S,Y,j,submaxiter,phaseRatio,l)
+
+        if verbose && mod(j,max(div(maxIter,100),1))==0
+            print("\r"*string("GI(S) ",round(GI(S),3)," GI(A) ",
+            round(GI(A),3),"\t Iterations Total:",j,"  S:",S_iter," A: ",A_iter,
+            "\tL:",round(l,5),"\t Dist to Y: ",round(sum((A*S-Y).^2.).^.5),5))
+        end
+
         if mod(j,10)==0 && sum(abs(A-Ap))/length(A)<threshold && sum(abs(S-Sp))/length(S)<threshold
             break
         end
@@ -183,14 +181,15 @@ end
 function m_reinitializeS(A,S, Y, verbose)
     #straightforward reinitialization of a line of S and a column of A
     #by picking one column in the residue
-
-    if sum(sum(S, 2) .== 0) > 0
+    attempt=0
+    while sum(sum(S, 2) .== 0) > 0 && attempt<10
         if verbose
             print("\r"*string("Reinitilizing blank rows/columns: ",sum(sum(S,2).==0)))
         end
         indices = [sum(S, 2) .== 0][:]
-        
+
         (A[:, indices], S[indices, :]) = m_fastExtractNMF(Y - A * S, sum(indices))
+        attempt+=1
     end
     (A,S)
 end
@@ -226,6 +225,6 @@ function m_fastExtractNMF(residual, r)
         A = [];
         S = [];
     end
-    
+
     return (A,S)
 end
