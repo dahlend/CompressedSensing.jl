@@ -8,7 +8,7 @@ This package contains several useful algorithms for compressed sensing, multiple
 ##Available Algorithms
 
 #####SMV - Single Measurement Vectors
-- *IRLS* - Equality constrained Iteratively Rewieghted Least Squares Lp Minimization [1][bib1]
+- *IRLS* - Equality constrained Iteratively Reweighted Least Squares Lp Minimization [1][bib1]
 - *UIRLS* - Unconstrained Iteratively Reweighted Lease Squares Lp Minimization [1][bib1]
 
 #####MMV - Multiple Measurement Vectors
