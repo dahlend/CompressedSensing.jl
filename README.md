@@ -1,5 +1,5 @@
 #CompressedSensing
-[![Build Status](https://travis-ci.org/dahlend/CompressedSensing.svg?branch=master)](https://travis-ci.org/dahlend/CompressedSensing)
+[![Build Status](https://travis-ci.org/dahlend/CompressedSensing.jl.svg?branch=master)](https://travis-ci.org/dahlend/CompressedSensing.jl)
 [![Documentation Status](https://readthedocs.org/projects/compressedsensing/badge/?version=latest)](https://readthedocs.org/projects/compressedsensing/?badge=latest)
 
 
