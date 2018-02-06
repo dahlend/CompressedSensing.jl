@@ -1,12 +1,10 @@
-include("SupportFunctions.jl")
-
 #Define the p in the Lp minimization, previous work suggests p=0.5 results in
 #equivalent results to 0 with signifigantly less time to convergence
 
 #eps is a function that starts at 1 and converges to 0 as x goes from 1->inf
 #this is needed by the IRLS algorithm to converge
-function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,1};
-              verbose=false,maxiter=1000,p=.5,eps=x->1/x^3,threshold=1e-5,debug=false)
+function IRLS(MeasurementMatrix::AbstractArray{T,2},MeasuredOutput::AbstractArray{T,1};
+              verbose=false,maxiter=1000,p=.5,eps=x->1/x^3,threshold=1e-5,debug=false) where T
 
     #identify the size of the input
     m=size(MeasurementMatrix,2)
@@ -28,7 +26,7 @@ function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,
     tMeasurementMatrix=MeasurementMatrix'
 
     #set the distance between iterations to infinite
-    PrevDist = fill(Inf,int(maxiter/100)+1)
+    PrevDist = fill(typemax(T),div(maxiter,100)+1)
 
     #start on iteration 1
     iteration=1
@@ -42,7 +40,7 @@ function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,
     
     
     #Begin Iterating
-    while PrevDist[int(iteration/100)+1]>threshold
+    while PrevDist[div(iteration,100)+1]>threshold
 
         #Calculate the diagonal weights for the ridge regression
         for j in 1:m
@@ -59,20 +57,20 @@ function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,
         
         #CONVERGENCE TEST
         #Every 1% of maxiter, see if we are approaching convergence
-        if mod(iteration,int(maxiter/100))==0
+        if mod(iteration,div(maxiter,100))==0
             #Measure convergence as euclidean distance between answers
-            PrevDist[int(iteration/100)+1] = sqrt(sum((PrevGuess-GuessedInput).^2.))/m
+            PrevDist[div(iteration,100)+1] = sqrt(sum((PrevGuess-GuessedInput).^2.))/m
 
             #Print progress if so desired
             if verbose
                 print("\r"*string(iteration, "  Euclidean Distance between steps: "
-                    ,PrevDist[int(iteration/100)+1]))
+                    ,PrevDist[div(iteration,100)+1]))
             end
             
             #most involved convergence test, see if the distance increases from one iteration
             #to the next, and if it does, break, converges=false since we didn't hit threshold
-            if (int(iteration/100)+1>2) && 
-                    (PrevDist[int(iteration/100)+1] > PrevDist[max(int(iteration/100),1)])
+            if (div(iteration,100)+1>2) && 
+                    (PrevDist[div(iteration,100)+1] > PrevDist[max(div(iteration,100),1)])
                 converges=false
                 break
             end
@@ -93,7 +91,7 @@ function IRLS(MeasurementMatrix::Array{Float64,2},MeasuredOutput::Array{Float64,
 
     #if debugging, return additional information, such as distance to convergence and iteration number
     if debug
-        return (GuessedInput,converges,iteration-1,PrevDist[1:(int(iteration/100)+1)])
+        return (GuessedInput,converges,iteration-1,PrevDist[1:(div(iteration,100)+1)])
     else
         return GuessedInput
     end

@@ -2,6 +2,7 @@ module CompressedSensing
 
 # package code goes here
 
+include("SupportFunctions.jl")
 include("IRLS.jl")
 include("UIRLS.jl")
 include("GiniIndex.jl")
