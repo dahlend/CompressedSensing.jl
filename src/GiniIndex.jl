@@ -1,25 +1,18 @@
 #Define the absolute Gini Index, see [4] for a complete definition
-function GI(x::Array)
-    
-    @assert eltype(x)<:Number
+function GI(x::AbstractArray{T}) where T<:Number
 
-    #Reshape the incoming matrix into a sorted 1xn list of positive numbers
-    x=abs(x[:])
-    sort!(x)
+    y = sort(x)
     
     n=length(x)
 
-    #s is the sum of all terms, g is the gini index
-    g=0
-    s=0
-    for i = 1:n
-        s += x[i]
-        g += x[i]*i
+    #g is the gini index
+    g=zero(T)
+    for k = 1:n
+        g += y[k]*(n-k+1/2)/n
     end
     
-    g *= 2/n/s
-    g -= (n+1)/n
-    
-    #return G
+    g = 1 - 2*g/sum(abs.(x))
+
+    #return g
     g
-end;
+end

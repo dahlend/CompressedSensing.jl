@@ -6,7 +6,7 @@ function InitSolution(MeasurementMatrix,MeasuredOutput,m)
 
     #Guess a random solution
     GuessedInput=zeros(m)
-    GuessedInput[round(rand(int(m/10))*(m-1)+1,0)]=rand(int(m/10))
+    GuessedInput[shuffle(1:m)[1:div(m,10)]]=rand(div(m,10))
 
     #project the guessed solution into the space of exact answers
     GuessedInput=FindSol(MeasuredOutput,
@@ -23,5 +23,5 @@ end
 
 
 function soft(x,l)
-    sign(x).*plusOp(abs(x)-l)
+    sign(x)*plusOp(abs(x)-l)
 end

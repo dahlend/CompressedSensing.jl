@@ -1,7 +1,4 @@
-include("SupportFunctions.jl")
-
-
-function updateS(Y,A::Array{Float64,2},lambda,S::Array{Float64,2};maxIter=10000,threshold=1e-5)
+function updateS(Y,A::AbstractArray{T,2},lambda,S::AbstractArray{T,2};maxIter=10000,threshold=1e-5) where T
 
     H=A'*A
     AtY=A'*Y
@@ -51,10 +48,10 @@ end
 
 
 
-function updateA(Y,S::Array{Float64,2},A::Array{Float64,2};maxIter=10000,threshold=1e-5)
+function updateA(Y,S::AbstractArray{T,2},A::AbstractArray{T,2};maxIter=10000,threshold=1e-5) where T
 
     Ap=A
-    B=zeros(size(A))
+    B=zeros(T,size(A))
 
     H=S*S'
     L=eigmax(H)
@@ -85,13 +82,13 @@ end
 
 
 #this definition was taken from thier matlab code with some modifications
-function updateLambda!(A::Array{Float64,2},S::Array{Float64,2},Y,iteration,maxIter, phaseRatio,lambda)
+function updateLambda!(A::AbstractArray{T,2},S::AbstractArray{T,2},Y,iteration,maxIter, phaseRatio,lambda) where T
     refinement_beginning = floor(phaseRatio * maxIter)
 
     if refinement_beginning > iteration
 
 
-        sigma_residue = 1.4826 * median(abs((Y - A*S)[:].-median((Y - A*S)[:])))
+        sigma_residue = 1.4826 * median(abs.((Y - A*S)[:].-median((Y - A*S)[:])))
         #linear decrease to tau_MAD*sigma_residue when reaching the refinement steps
         lambda = maximum([sigma_residue, lambda - 1/(refinement_beginning - iteration) * (lambda - sigma_residue)])
 
@@ -104,16 +101,16 @@ end
 
 
 
-function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,phaseRatio=0.30,kickstart=true,submaxiter=200)
+function nGMCA(Y::AbstractArray{T},r;verbose=false,maxIter=5000,threshold=1e-6,phaseRatio=0.30,kickstart=true,submaxiter=200) where T
 
     #Randomly build one of the two output matricies
-    S=rand(size(Y,2),r)'
+    S=rand(T,size(Y,2),r)'
 
     #Fit the first as an approximation of the other
     A=Y/S
 
     #Estimate an L0
-    l=maximum(abs(A'*(A*S-Y)))
+    l=maximum(abs.(A'*(A*S-Y)))
 
     if verbose && kickstart
         print("\nKickstarting BSS...")
@@ -121,8 +118,8 @@ function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,pha
 
     if kickstart
         #Kick Start this show!
-        A=plusOp(Y/S)
-        S=plusOp(A\Y)
+        A=plusOp.(Y/S)
+        S=plusOp.(A\Y)
         S=updateS(Y,A,0,S;maxIter=submaxiter)[1]
         (A,S)=m_reinitializeS(A,S, Y, verbose)
         A=updateA(Y,S,A;maxIter=submaxiter)[1]
@@ -143,7 +140,8 @@ function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,pha
 
         #normalize columns of A
         for i=1:size(A,2)
-            A[:,i]= A[:,i]./(sum(A.^2.,1).^.5)[i]
+            #A[:,i]= A[:,i]./(sum(A.^2.,1).^.5)[i]
+            A[:,i] .= A[:,i]/norm(A[:,i])
         end
 
         (A,S)=m_reinitializeS(A,S, Y, verbose)
@@ -158,7 +156,7 @@ function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,pha
             "\tL:",round(l,5),"\t Dist to Y: ",round(sum((A*S-Y).^2.).^.5),5))
         end
 
-        if mod(j,10)==0 && sum(abs(A-Ap))/length(A)<threshold && sum(abs(S-Sp))/length(S)<threshold
+        if mod(j,10)==0 && sum(abs.(A-Ap))/length(A)<threshold && sum(abs.(S-Sp))/length(S)<threshold
             break
         end
     end
@@ -168,7 +166,7 @@ function nGMCA(Y::Array{Float64},r;verbose=false,maxIter=5000,threshold=1e-6,pha
             print("\nFailed to converge!\n")
         end
     end
-    return {A,S}
+    return (A,S)
 end
 
 
@@ -192,29 +190,26 @@ function m_reinitializeS(A,S, Y, verbose)
 end
 
 
-function m_fastExtractNMF(residual, r)
+function m_fastExtractNMF(residual::AbstractArray{T}, r) where T
     if r > 0
         (m, n) = size(residual);
-        A = zeros(m, r);
-        S = zeros(r, n);
+        A = zeros(T, m, r);
+        S = zeros(T, r, n);
         for i = 1 : r
-            residual = max(residual,0)
-            if sum(residual[:]) != 0
+            residual = max.(residual,0)
+            if sum(residual) != 0
                 #compute square norm of residual to select maximum one
                 res2 = sum(residual.^2,1);
-                j = findin(res2,maximum(res2));
-                if !isempty(j)
-                    j = j[1];
-                    if res2[j] > 0
-                        #normalize maximum residual
-                        A[:, i] = residual[:, j] / res2[j].^.5;
-                        #compute scalar product with the rest of the residual and keep only
-                        #positive coefficients
-                        S[i, :] = A[:, i]' * residual;
-                        S[i, :] = max(S[i, :], zeros(size(S[i,:])) );
-                        #compute new residual
-                        residual = residual - A[:, i] * S[i, :];
-                    end
+                j = indmax(res2)
+                if res2[j] > 0
+                    #normalize maximum residual
+                    A[:, i] = residual[:, j] / sqrt(res2[j])
+                    #compute scalar product with the rest of the residual and keep only
+                    #positive coefficients
+                    S[i, :] = A[:, i]' * residual;
+                    S[i, :] = max.(S[i, :],0)
+                    #compute new residual
+                    residual = residual - A[:, i] * S[i, :]
                 end
             end
         end
